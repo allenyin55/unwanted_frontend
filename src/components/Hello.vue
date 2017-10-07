@@ -25,6 +25,7 @@ export default {
   name: 'hello',
   data () {
     return {
+      errors: [],
       userInput: '',
       msg: 'Reassurance for everyone',
       styleObject: {
@@ -47,16 +48,18 @@ export default {
     }
   },
   methods: {
-    async postRequest () {
-      console.log(this)
-      const endpoint = ``
-      try {
-        await axios.post(endpoint, {
-          body: this.userInput
-        })
-      } catch (e) {
+    postRequest () {
+      console.log(this.userInput)
+      const endpoint = 'https://326ee7f8.ngrok.io/data'
+      axios.post(endpoint, {
+        username: this.userInput
+      })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(e => {
         this.errors.push(e)
-      }
+      })
     }
   }
 }
