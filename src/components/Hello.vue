@@ -7,10 +7,10 @@
       <h1 :style="{ fontSize: '55px'}">{{ msg }}</h1>
       <span>
         <div v-bind:style="inputStyle">
-          <icon name="user" scale='3' v-bind:style="iconStyle"></icon>
-          <input type="text" v-bind:style="textStyle">
+          <icon name="user" scale='3'></icon>
+          <input type="text" v-model="userInput ">
         </div>
-        <button v-bind:style="buttonStyle" v-on:click="postRequest">
+        <button v-bind:style="buttonStyle" v-on:click="postRequest()">
           <icon name="arrow-right" scale='3'></icon>
         </button>
       </span>
@@ -19,10 +19,13 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'hello',
   data () {
     return {
+      userInput: '',
       msg: 'Reassurance for everyone',
       styleObject: {
         backgroundImage: 'url(\'' + require('../assets/1.jpg') + '\')'
@@ -35,10 +38,24 @@ export default {
         padding: '15px'
       },
       buttonStyle: {
-        padding: '18px 21px',
+        padding: '23px 24px',
         backgroundColor: '#8dd47f',
         borderColor: '#8dd47f',
-        borderRadius: '20px'
+        borderRadius: '17px',
+        marginLeft: '10px'
+      }
+    }
+  },
+  methods: {
+    async postRequest () {
+      console.log(this)
+      const endpoint = ``
+      try {
+        await axios.post(endpoint, {
+          body: this.userInput
+        })
+      } catch (e) {
+        this.errors.push(e)
       }
     }
   }
@@ -87,6 +104,15 @@ input {
 
 input[type="text"] {
   font-size:45px;
+}
+
+button{
+  outline: none;
+  border: none;
+}
+
+button:active{
+  background-color: #006400;
 }
 
 </style>
