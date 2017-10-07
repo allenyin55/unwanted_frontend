@@ -1,25 +1,20 @@
 <template>
   <div class="hello">
-    <div id="header" :style="{ backgroundImage: 'url(\'' + image + '\')' }">
-      he
+    <div id="header" v-bind:style="styleObject">
+      <icon scale="5" name="bars" :style="{ margin: 30 + 'px'}"></icon>
     </div>
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <div class="text_area">
+      <h1 :style="{ fontSize: '55px'}">{{ msg }}</h1>
+      <span>
+        <div v-bind:style="inputStyle">
+          <icon name="user" scale='3' v-bind:style="iconStyle"></icon>
+          <input type="text" v-bind:style="textStyle">
+        </div>
+        <button v-bind:style="buttonStyle" v-on:click="postRequest">
+          <icon name="arrow-right" scale='3'></icon>
+        </button>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -28,8 +23,23 @@ export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      image: require('../assets/1.jpg')
+      msg: 'Reassurance for everyone',
+      styleObject: {
+        backgroundImage: 'url(\'' + require('../assets/1.jpg') + '\')'
+      },
+      inputStyle: {
+        display: 'inline-block',
+        position: 'relative',
+        backgroundColor: '#acd5e3',
+        borderRadius: '20px',
+        padding: '15px'
+      },
+      buttonStyle: {
+        padding: '18px 21px',
+        backgroundColor: '#8dd47f',
+        borderColor: '#8dd47f',
+        borderRadius: '20px'
+      }
     }
   }
 }
@@ -37,6 +47,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.text_area {
+  text-align: center;
+}
 
 #header{
   height: 450px;
@@ -61,4 +75,18 @@ li {
 a {
   color: #42b983;
 }
+
+input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 3px solid black;
+  width: 400px;
+  padding-left: 10px;
+}
+
+input[type="text"] {
+  font-size:45px;
+}
+
 </style>
