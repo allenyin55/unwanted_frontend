@@ -1,5 +1,8 @@
 <template>
   <div class="hello">
+    <div id="header" :style="{ backgroundImage: 'url(\'' + image + '\')' }">
+      he
+    </div>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -25,7 +28,8 @@ export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      image: require('../assets/1.jpg')
     }
   }
 }
@@ -33,6 +37,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+#header{
+  height: 450px;
+  width: 100%;
+  background-size: cover;
+}
+
 h1, h2 {
   font-weight: normal;
 }
