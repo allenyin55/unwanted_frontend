@@ -19,4 +19,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+body.results-bg {
+    background: #8AC7DB;
+    margin: 0;
+}
 </style>
