@@ -7,32 +7,36 @@
       <div>Unwanted Data</div>
       <container>
         <grid>
-          <animated-bounce>
             <grid-item size="1/2">
               <icon class="aweIcon" scale="1.5" name="twitter"></icon>
+              <div class="theBox">
+                <transition-group name="list" tag="p" class="content">
+                  <p v-for="item in items" v-bind:key="item" class="list-item">
+                    {{ item }}
+                  </p>
+                </transition-group>
+              </div>
             </grid-item>
-          </animated-bounce>
           <grid-item size="1/3">
             <icon class="aweIcon" scale="1.5" name="facebook"></icon>
           </grid-item>
           <grid-item size="1/2">
             <icon class="aweIcon" scale="1.5" name="instagram"></icon>
+            <div class="theBox">
+              <transition-group name="list2" tag="p" class="content">
+                <li v-for="image in images" v-bind:key="image" class="list-item">
+                  <img :src="image" alt="">
+                </li>
+            </transition-group>
+            </div>
           </grid-item>
         </grid>
       </container>
       <div id="list-demo">
-        <transition-group name="list" tag="p">
-          <p v-for="item in items" v-bind:key="item" class="list-item">
-            {{ item }}
-          </p>
-        </transition-group>
+
       </div>
       <div id="list-demo2">
-        <transition-group name="list2" tag="p">
-          <span v-for="image in images" v-bind:key="image" class="list-item">
-            <image src={{ image }} />
-          </span>
-        </transition-group>
+        
       </div>
     </div>
   </div>
@@ -43,6 +47,14 @@ import store from '../store'
 
 export default {
   name: 'Result',
+  methods: {
+    add: function () {
+      this.images.splice(1, 0, 1)
+    },
+    remove: function () {
+      this.images.splice(2, 1)
+    }
+  },
   data () {
     return {
       items: store.state.tweets,
@@ -81,9 +93,7 @@ export default {
           store.commit('addTweets', element.text)
         }, this)
       } else if (data.type === 'instagram') {
-        data.data.forEach(function (element) {
-          store.commit('addInsts', data.data)
-        })
+        store.commit('addInsts', data.instagram.display_src)
       }
       this.socketMessage = data
     }
@@ -113,11 +123,39 @@ button:active{
 p{
   color: black;
   font-size: 20px;
+  padding-bottom: 10px; 
+}
+
+.theBox{
+  text-align: left;
+  width:300px;
+  height: 400px;
+  margin: 10px;
+  overflow-y: scroll;
+  background-color: #d6d6d6;
+  border-radius: 22px;
+  padding: 0 15px 0 15px;
+}
+
+.content{
+  background-color: white;
+}
+
+img{
+  height: 165px;
+  width: 165px;
+}
+
+p .list-item{
+  width: 100%;
+  overflow-wrap: break-word;
+  border-bottom: 1px solid blue; 
 }
 
 .list-item {
-  display: inline-block;
   margin-right: 10px;
+  list-style: none;
+  position: relative;
 }
 .list-enter-active, .list-leave-active {
   transition: all 1s;
@@ -126,6 +164,5 @@ p{
   opacity: 0;
   transform: translateY(30px);
 }
-
 </style>
 
