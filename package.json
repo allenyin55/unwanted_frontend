@@ -11,8 +11,11 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "axios": "^0.16.2",
     "vue": "^2.4.2",
+    "vue-animate": "0.0.4",
+    "vue-fraction-grid": "^1.1.0",
     "vue-router": "^2.7.0",
     "vuex": "^2.4.1"
   },
@@ -50,8 +53,10 @@
     "rimraf": "^2.6.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "socket.io-client": "^2.0.3",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.0.4",
+    "vue-socket.io": "^2.1.1-a",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.4.2",
     "webpack": "^2.6.1",

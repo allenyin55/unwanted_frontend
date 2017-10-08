@@ -8,9 +8,10 @@
       <span>
         <div v-bind:style="inputStyle">
           <icon name="user" scale='3'></icon>
-          <input type="text" v-model="userInput ">
+          <input type="text" v-model="userInput" v-on:keyup.enter="postRequest()">
         </div>
-        <button v-bind:style="buttonStyle" v-on:click="postRequest()">
+        <button v-bind:style="buttonStyle" 
+                v-on:click="postRequest()"> 
           <icon name="arrow-right" scale='3'></icon>
         </button>
       </span>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import router from '../router'
 
 export default {
   name: 'hello',
@@ -49,17 +50,11 @@ export default {
   },
   methods: {
     postRequest () {
-      console.log(this.userInput)
-      const endpoint = 'https://326ee7f8.ngrok.io/data'
-      axios.post(endpoint, {
+      console.log('request send: ', this.userInput)
+      this.$socket.emit('data', {
         username: this.userInput
       })
-      .then(response => {
-        console.log(response)
-      })
-      .catch(e => {
-        this.errors.push(e)
-      })
+      router.push('result')
     }
   }
 }

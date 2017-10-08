@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    result: []
+    tweets: [],
+    insts: []
   },
   mutations: {
-    addNewResult (state, data) {
-      state.result = data
+    addTweets (state, data) {
+      state.tweets.push(data)
+    },
+    addInsts (state, data) {
+      state.insts.push(data)
     }
   }
 })
