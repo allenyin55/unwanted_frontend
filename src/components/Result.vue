@@ -9,21 +9,44 @@
         <grid>
             <grid-item size="1/2">
               <icon class="aweIcon" scale="1.5" name="twitter"></icon>
-              <div class="theBox">
-                <transition-group name="list" tag="p" class="content">
+              <div v-if="items.length == 0">
+                <icon name='spinner' class="spinner"></icon>
+              </div>
+              <div class="theBox" v-else>
+                <transition-group appear name="list" tag="p" class="content">
                   <p v-for="item in items" v-bind:key="item" class="list-item">
                     {{ item }}
                   </p>
-                </transition-group>
+                </transition-group appear>
               </div>
             </grid-item>
           <grid-item size="1/3">
-            <icon class="aweIcon" scale="1.5" name="facebook"></icon>
+            <icon class="aweIcon" scale="1.5" name="link"></icon>
+            <div v-if="links.length == 0">
+              <icon name='spinner' class="spinner"></icon>
+            </div>
+            <div class="theBox" v-else>
+              <transition-group appear name="list2" tag="p" class="content">
+                <li v-for="link in links" 
+                    v-if="link.data !== undefined" 
+                    v-bind:key="link"
+                    :style="{ paddingBottom: '10x'}"
+                    class="list-item">
+                  <a :href="link.data.url" :style="{ textDecoration: 'none'}">
+                    <icon :name="link.name" :style="{ padding: '0 0 5px 0'}"></icon>
+                    {{ link.data.display }}
+                  </a>
+                </li>
+              </transition-group appear>
+            </div>
           </grid-item>
           <grid-item size="1/2">
             <icon class="aweIcon" scale="1.5" name="instagram"></icon>
-            <div class="theBox">
-              <transition-group name="list2" tag="p" class="content">
+            <div v-if="images.length == 0">
+              <icon name='spinner' class="spinner"></icon>
+            </div>
+            <div class="theBox" v-else>
+              <transition-group name="list3" tag="p" class="content">
                 <li v-for="image in images" v-bind:key="image" class="list-item">
                   <img :src="image" alt="">
                 </li>
@@ -32,11 +55,6 @@
           </grid-item>
         </grid>
       </container>
-      <div id="list-demo">
-
-      </div>
-      <div id="list-demo2">
-        
       </div>
     </div>
   </div>
@@ -47,18 +65,11 @@ import store from '../store'
 
 export default {
   name: 'Result',
-  methods: {
-    add: function () {
-      this.images.splice(1, 0, 1)
-    },
-    remove: function () {
-      this.images.splice(2, 1)
-    }
-  },
   data () {
     return {
       items: store.state.tweets,
       images: store.state.insts,
+      links: store.state.links,
       isConnected: false,
       socketMessage: '',
       msg: 'Unwanted Data',
@@ -92,6 +103,8 @@ export default {
         data.data.forEach(function (element) {
           store.commit('addTweets', element.text)
         }, this)
+      } else if (data.type === 'links') {
+        store.commit('addLinks', data.links)
       } else if (data.type === 'instagram') {
         store.commit('addInsts', data.instagram.display_src)
       }
@@ -112,15 +125,17 @@ export default {
   padding: 15px;
 }
 
-button:active{
-  background-color: teal;
+.aweIcon:hover {
+    -webkit-animation: bounce 1s;
+    animation: bounce 1s;
 }
+
 
 #list-demo{
   text-align: left;
 }
 
-p{
+p, a{
   color: black;
   font-size: 20px;
   padding-bottom: 10px; 
@@ -128,7 +143,7 @@ p{
 
 .theBox{
   text-align: left;
-  width:300px;
+  width:260px;
   height: 400px;
   margin: 10px;
   overflow-y: scroll;
@@ -137,26 +152,32 @@ p{
   padding: 0 15px 0 15px;
 }
 
-.content{
-  background-color: white;
-}
-
 img{
   height: 165px;
-  width: 165px;
+  width: 185px;
+  padding-left: 50px;
 }
 
 p .list-item{
   width: 100%;
   overflow-wrap: break-word;
-  border-bottom: 1px solid blue; 
+  border-top: 1px solid transparent; 
+  padding: 10px 0 0 10px;
+  box-shadow: 0 21px 0 -20px #d6d6d6;
+  box-sizing: border-box;
 }
 
 .list-item {
   margin-right: 10px;
   list-style: none;
   position: relative;
+  background-color: white
 }
+
+.list-item:hover {
+  transform: scale3d(1.05, 1.05, 1.05);
+}
+
 .list-enter-active, .list-leave-active {
   transition: all 1s;
 }
@@ -164,5 +185,21 @@ p .list-item{
   opacity: 0;
   transform: translateY(30px);
 }
+
+::-webkit-scrollbar {
+display: none;
+}
+
+.spinner{
+  margin-top: 100px;
+  color: black;
+  -webkit-animation:spin 3s linear infinite;
+  -moz-animation:spin 3s linear infinite;
+  animation:spin 3s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 </style>
 

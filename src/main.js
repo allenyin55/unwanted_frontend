@@ -11,7 +11,7 @@ import VueFractionGrid from 'vue-fraction-grid'
 import AnimatedVue from 'animated-vue'
 import 'animate.css/animate.css'
 
-const endpoint = `https://326ee7f8.ngrok.io`
+const endpoint = `http://9281c651.ngrok.io`
 
 export const SocketInstance = socketio(endpoint)
 
